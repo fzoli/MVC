@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : index
+    Created on : 2012.01.28., 0:06:53
+    Author     : zoli
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:my="/WEB-INF/mytld"
+          version="2.0">
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+        <jsp:body>
+            <jsp:output doctype-root-element="html"
+                    doctype-public="-//W3C//DTD XHTML 1.1//EN"
+                    doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
+            <html xmlns="http://www.w3.org/1999/xhtml">
+                <head>
+                    <link rel="stylesheet" href="index.css" type="text/css" />
+                    <my:jscript href="lib/firebug-lite/build/firebug-lite.js" />
+                    <my:jscript href="lib/prototype.js" />
+                    <my:jscript href="lib/fzoli.prototype.mvc.js" />
+                    <my:jscript href="index_1.js" />
+                    <title>Helló Világ</title>
+                </head>
+                <body>
+                    <h1>Helló<my:span id="lb" />!</h1>
+                    <div><my:span id="tf" /></div>
+                    <h1>Helló<my:span id="mylb" />!</h1>
+                    <div><my:span id="mytf" /></div>
+                </body>
+            </html>
+        </jsp:body>
+</jsp:root>

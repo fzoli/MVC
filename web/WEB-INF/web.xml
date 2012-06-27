@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <!-- TODO: annotációra cserélni amit csak lehet és ez az érték a klienseknél ha kell, default legyen -->
+    <!--<security-constraint>
+        <display-name>Security Constraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Area</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>-->
+    <welcome-file-list>
+        <welcome-file>index.jspx</welcome-file>
+    </welcome-file-list>
+    <!--<context-param>
+        <description>Redirect path for AbstractServlets.</description>
+        <param-name>redirect_path</param-name>
+        <param-value>index.jspx</param-value>
+    </context-param>-->
+    <context-param>
+        <description>Enable GET (disable redirect)</description>
+        <param-name>redirect</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <!--<context-param>
+        <description>ModelBean session ID</description>
+        <param-name>model_bean_id</param-name>
+        <param-value>myModelBean</param-value>
+    </context-param>-->
+    <!--<context-param>
+        <description>ModelMap session ID</description>
+        <param-name>model_map_id</param-name>
+        <param-value>myModelMap</param-value>
+    </context-param>-->
+    <!--<context-param>
+        <description>Map class name that contains models.</description>
+        <param-name>model_map_class_name</param-name>
+        <param-value>org.dyndns.fzoli.mvc.test.server.model.map.TestModelMap</param-value>
+    </context-param>-->
+    <!--<servlet>
+        <servlet-name>ModelChangeListenerServlet</servlet-name>
+        <servlet-class>org.dyndns.fzoli.mvc.server.servlet.listener.JSONListenerServlet</servlet-class>
+        <init-param>
+            <description>Event timeout in miliseconds.</description>
+            <param-name>event_timeout</param-name>
+            <param-value>60000</param-value>
+        </init-param>
+        <init-param>
+            <description>Reconnect wait time in miliseconds.</description>
+            <param-name>reconnect_wait</param-name>
+            <param-value>5000</param-value>
+        </init-param>
+        <init-param>
+            <description>Event delay.</description>
+            <param-name>event_delay</param-name>
+            <param-value>50</param-value>
+        </init-param>
+        <init-param>
+            <description>Garbage-collector delay.</description>
+            <param-name>gc_delay</param-name>
+            <param-value>60000</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>ModelControllerServlet</servlet-name>
+        <servlet-class>org.dyndns.fzoli.mvc.server.servlet.controller.JSONControllerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModelChangeListenerServlet</servlet-name>
+        <url-pattern>/ChangeListener</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModelControllerServlet</servlet-name>
+        <url-pattern>/Controller</url-pattern>
+    </servlet-mapping>-->
+    <session-config>
+        <cookie-config>
+            <name>MILL_SESSION_ID</name>
+        </cookie-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>

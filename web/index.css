@@ -1,0 +1,41 @@
+.autotitle {
+    font: bold 14px/1.4 helvetica,arial,freesans,clean,sans-serif;
+    padding: 4px;
+    padding-left: 0px;
+}
+
+.autoinput input {
+    width: 250px;
+    padding: 4px;
+    margin: 0px;
+}
+
+.autoerror, .automessage {
+    font-size: 11px;
+}
+
+.automessage {
+    margin: 2px 0 5px;
+    padding: 4px;
+    padding-left: 0px;
+}
+
+.autoerror {
+    width: 252px;
+    font-weight: bold;
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #F7EA57;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-color: #FFFFFF #C0B536 #C0B536;
+    border-right: 1px solid #C0B536;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    color: #333333;
+    padding: 4px;
+}

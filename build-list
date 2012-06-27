@@ -1,0 +1,38 @@
+JAR fájlok tartalma:
+-------------------------------------
+
+Szerver oldalra:
+- fzoli-bean.jar
+  org.dyndns.fzoli.bean
+- fzoli-jstl.jar
+  org.dyndns.fzoli.jstl
+- fzoli-key.jar
+  org.dyndns.fzoli.key
+- fzoli-servlet.jar
+  org.dyndns.fzoli.servlet
+- fzoli-mvc-server.jar
+  org.dyndns.fzoli.mvc.server.*
+- fzoli-mvc-test-server.jar
+  org.dyndns.fzoli.mvc.test.server
+
+Kliens oldalra:
+- fzoli-http.jar
+  org.dyndns.fzoli.http
+  org.dyndns.fzoli.http.data
+  org.dyndns.fzoli.http.trustmanager
+- fzoli-http-desktop.jar
+  org.dyndns.fzoli.http.desktop
+- fzoli-http-android.jar
+  org.dyndns.fzoli.http.android
+- fzoli-mvc-client.jar
+  org.dyndns.fzoli.mvc.client.*
+- fzoli-mvc-test-client.jar
+  org.dyndns.fzoli.mvc.test.client
+
+Mindkét oldalra:
+- fzoli-map.jar
+  org.dyndns.fzoli.map
+- fzoli-mvc-common.jar
+  org.dyndns.fzoli.mvc.common.*
+- fzoli-mvc-test-common.jar
+  org.dyndns.fzoli.mvc.test.common
