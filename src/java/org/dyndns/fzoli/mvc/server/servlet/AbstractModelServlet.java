@@ -72,7 +72,7 @@ public abstract class AbstractModelServlet<EventType, PropsType> extends Abstrac
     
     private ModelBean<EventType, PropsType> createModelBean(HttpServletRequest request) {
         ModelMap<Model<EventType, PropsType>> map = getModelMap(request);
-        ModelBean<EventType, PropsType> modelBean = new ModelBean<EventType, PropsType>(request.getSession(true), map);
+        ModelBean<EventType, PropsType> modelBean = new ModelBean<EventType, PropsType>(this, request.getSession(true), map);
         setSessionAttribute(request, getModelBeanId(), modelBean);
         return modelBean;
     }

@@ -7,6 +7,7 @@ import org.dyndns.fzoli.bean.AbstractBean;
 import org.dyndns.fzoli.mvc.common.message.EventMessage;
 import org.dyndns.fzoli.mvc.server.model.Model;
 import org.dyndns.fzoli.mvc.server.model.map.ModelMap;
+import org.dyndns.fzoli.mvc.server.servlet.ModelServlet;
 
 /**
  *
@@ -15,6 +16,7 @@ import org.dyndns.fzoli.mvc.server.model.map.ModelMap;
 public class ModelBean<EventType, PropsType> extends AbstractBean {
     
     private final HttpSession SESSION;
+    private final ModelServlet SERVLET;
     private final ModelMap<Model<EventType, PropsType>> MODELS;
     
     /**
@@ -22,10 +24,15 @@ public class ModelBean<EventType, PropsType> extends AbstractBean {
      * Sorry but ModelBean needs a map that countains Models.
      * @param modelMapClassName
      */
-    public ModelBean(HttpSession session, ModelMap<Model<EventType, PropsType>> models) {
+    public ModelBean(ModelServlet servlet, HttpSession session, ModelMap<Model<EventType, PropsType>> models) {
         models.setModelBean(this);
+        SERVLET = servlet;
         SESSION = session;
         MODELS = models;
+    }
+
+    public ModelServlet getServlet() {
+        return SERVLET;
     }
 
     @Override
