@@ -1,5 +1,6 @@
 package org.dyndns.fzoli.mvc.test.server.model;
 
+import javax.servlet.http.HttpServletRequest;
 import org.dyndns.fzoli.mvc.common.request.map.RequestMap;
 import org.dyndns.fzoli.mvc.server.model.JSONModel;
 import org.dyndns.fzoli.mvc.test.common.key.TestModelKeys;
@@ -50,12 +51,12 @@ public class TestModel extends JSONModel<TestEvent, TestData> implements TestMod
     }
     
     @Override
-    protected TestData getProperties(RequestMap request) {
+    protected TestData getProperties(HttpServletRequest servletRequest, RequestMap request) {
         return new TestData(getStr(), getStr2());
     }
 
     @Override
-    protected int setProperty(RequestMap request) {
+    protected int setProperty(HttpServletRequest servletRequest, RequestMap request) {
         String prop = request.getFirst(MSG_PROPERTY);
         String val = request.getFirst(MSG_VALUE);
         if (prop != null && val != null) {

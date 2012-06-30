@@ -81,7 +81,7 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
         ModelInfo<EventType, PropsType> modelInfo = getModelInfo(requestMap, request);
         if (checkModelInfo(response, modelInfo)) {
             Model<EventType, PropsType> model = modelInfo.getModels().get(0);
-            int i = ask ? model.safeAskModel(requestMap) : model.safeSetProperty(requestMap);
+            int i = ask ? model.safeAskModel(request, requestMap) : model.safeSetProperty(request, requestMap);
             printReturnMessage(response, Integer.toString(i));
         }
     }
@@ -105,7 +105,7 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
             List<Model<EventType, PropsType>> models = modelInfo.getModels();
             Map<String, PropsType> msgmap = new HashMap<String, PropsType>();
             for (Model<EventType, PropsType> m : models) {
-                PropsType props = m.safeGetProperties(requestMap);
+                PropsType props = m.safeGetProperties(request, requestMap);
                 msgmap.put(mb.getModelName(m), props);
             }
             printString(response, getServlet().modelMessageToString(new ModelMessage<PropsType>(msgmap)));
@@ -168,7 +168,7 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
     private void printModelImage(ControllerServletRequestMap requestMap, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ModelInfo<EventType, PropsType> modelInfo = getModelInfo(requestMap, request);
         if (checkModelInfo(response, modelInfo)) {
-            writeImage(response, modelInfo.getModels().get(0).safeGetImage(requestMap));
+            writeImage(response, modelInfo.getModels().get(0).safeGetImage(request, requestMap));
         }
     }
     
@@ -176,7 +176,7 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
         ModelInfo<EventType, PropsType> modelInfo = getModelInfo(requestMap, request);
         if (checkModelInfo(response, modelInfo)) {
             RenderedImage img = readImage(request);
-            if (img != null) printReturnMessage(response, String.valueOf(modelInfo.getModels().get(0).safeSetImage(img, requestMap)));
+            if (img != null) printReturnMessage(response, String.valueOf(modelInfo.getModels().get(0).safeSetImage(img, request, requestMap)));
             else printCloseMessage(response, ControllerCloseMessage.REASON_NO_IMAGE);
         }
     }

@@ -2,6 +2,7 @@ package org.dyndns.fzoli.mvc.server.model;
 
 import java.awt.image.RenderedImage;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.dyndns.fzoli.mvc.common.request.map.RequestMap;
 import org.dyndns.fzoli.mvc.server.model.map.ModelMap;
 
@@ -27,14 +28,14 @@ public interface Model<EventType, PropsType> {
     
     List<EventType> safeGetEvents(String listenerId);
     
-    PropsType safeGetProperties(RequestMap request);
+    PropsType safeGetProperties(HttpServletRequest servletRequest, RequestMap request);
     
-    RenderedImage safeGetImage(RequestMap request);
+    RenderedImage safeGetImage(HttpServletRequest servletRequest, RequestMap request);
     
-    int safeSetImage(RenderedImage img, RequestMap request);
+    int safeSetImage(RenderedImage img, HttpServletRequest servletRequest, RequestMap request);
     
-    int safeAskModel(RequestMap request);
+    int safeAskModel(HttpServletRequest servletRequest, RequestMap request);
     
-    int safeSetProperty(RequestMap request);
+    int safeSetProperty(HttpServletRequest servletRequest, RequestMap request);
     
 }

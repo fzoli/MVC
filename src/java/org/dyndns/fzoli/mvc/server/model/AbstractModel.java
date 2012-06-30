@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.dyndns.fzoli.mvc.common.request.map.RequestMap;
 import org.dyndns.fzoli.mvc.server.model.bean.ModelBean;
 import org.dyndns.fzoli.mvc.server.model.bean.ModelBeanRegister;
@@ -81,9 +82,9 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
     }
     
     @Override
-    public final PropsType safeGetProperties(RequestMap request) {
+    public final PropsType safeGetProperties(HttpServletRequest servletRequest, RequestMap request) {
         synchronized(this) {
-            return createProperties(getProperties(request));
+            return createProperties(getProperties(servletRequest, request));
         }
     }
     
@@ -91,49 +92,49 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
     
     protected abstract PropsType createProperties(PropsObj o);
     
-    protected abstract PropsObj getProperties(RequestMap request);
+    protected abstract PropsObj getProperties(HttpServletRequest servletRequest, RequestMap request);
     
     @Override
-    public final int safeAskModel(RequestMap request) {
+    public final int safeAskModel(HttpServletRequest servletRequest, RequestMap request) {
         synchronized(this) {
-            return askModel(request);
+            return askModel(servletRequest, request);
         }
     }
     
-    protected int askModel(RequestMap request) {
+    protected int askModel(HttpServletRequest servletRequest, RequestMap request) {
         return -1;
     }
     
     @Override
-    public final RenderedImage safeGetImage(RequestMap request) {
+    public final RenderedImage safeGetImage(HttpServletRequest servletRequest, RequestMap request) {
         synchronized(this) {
-            return getImage(request);
+            return getImage(servletRequest, request);
         }
     }
     
-    protected RenderedImage getImage(RequestMap request) {
+    protected RenderedImage getImage(HttpServletRequest servletRequest, RequestMap request) {
         return null;
     }
     
     @Override
-    public int safeSetImage(RenderedImage img, RequestMap request) {
+    public int safeSetImage(RenderedImage img, HttpServletRequest servletRequest, RequestMap request) {
         synchronized(this) {
-            return setImage(img, request);
+            return setImage(img, servletRequest, request);
         }
     }
     
-    protected int setImage(RenderedImage img, RequestMap request) {
+    protected int setImage(RenderedImage img, HttpServletRequest servletRequest, RequestMap request) {
         return -1;
     }
     
     @Override
-    public final int safeSetProperty(RequestMap request) {
+    public final int safeSetProperty(HttpServletRequest servletRequest, RequestMap request) {
         synchronized(this) {
-            return setProperty(request);
+            return setProperty(servletRequest, request);
         }
     }
     
-    protected abstract int setProperty(RequestMap request);
+    protected abstract int setProperty(HttpServletRequest servletRequest, RequestMap request);
     
     protected void addEvent(EventObj ev) {
         synchronized(REGISTER) {
