@@ -58,6 +58,7 @@ class ExecuteData {
  */
 public abstract class HttpExecutor {
     
+    private Locale locale;
     private HttpUrl url;
     private String encode;
     private int connectionTimeout = 5000;
@@ -89,6 +90,14 @@ public abstract class HttpExecutor {
         HTTP_CLIENT = createThreadSafeClient();
         setUsernameAndPassword(usr, passwd);
         setConnectionTimeout(connectionTimeout);
+    }
+
+    public Locale getLocale() {
+        return locale == null ? Locale.getDefault() : locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
     
     public void setUsernameAndPassword(String usr, String passwd) {
@@ -282,6 +291,7 @@ public abstract class HttpExecutor {
         HttpStreamReturn ret;
         try {
             if (creds != null) post.addHeader(new BasicScheme().authenticate(creds, post));
+            post.addHeader("Accept-Language", getLocale().getLanguage());
             Timer t = null;
             if (timeout != null) {
                 t = new Timer();
