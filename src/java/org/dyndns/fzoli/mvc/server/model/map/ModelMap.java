@@ -34,6 +34,19 @@ public abstract class ModelMap<ModelType extends Model> extends CommonMap<String
         return get(k, true);
     }
 
+    public <T extends ModelType> T get(Object k, Class<T> clazz) {
+        return get(k, true, clazz);
+    }
+    
+    public <T extends ModelType> T get(Object k, boolean init, Class<T> clazz) {
+        try {
+            return (T) get(k, init);
+        }
+        catch (ClassCastException ex) {
+            return null;
+        }
+    }
+    
     public ModelType get(Object k, boolean init) {
         try {
             String key = (String) k;
