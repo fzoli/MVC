@@ -188,7 +188,12 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
             for (ModelBean bean : beans) {
                 Model m = bean.getModel(key, init);
                 if (m == null) continue;
-                if (m.getClass().equals(clazz)) l.add((T)m);
+                try {
+                    l.add((T)m);
+                }
+                catch (ClassCastException ex) {
+                    ;
+                }
             }
         }
         return l;
