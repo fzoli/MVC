@@ -117,7 +117,7 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
     }
     
     @Override
-    public int safeSetImage(RenderedImage img, HttpServletRequest servletRequest, RequestMap request) {
+    public final int safeSetImage(RenderedImage img, HttpServletRequest servletRequest, RequestMap request) {
         synchronized(this) {
             return setImage(img, servletRequest, request);
         }
