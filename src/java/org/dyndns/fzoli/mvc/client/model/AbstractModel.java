@@ -23,17 +23,23 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
 
     protected abstract class CallbackAction<T> implements ModelActionListener<T> {
 
-        private ModelActionListener<T> l;
+        private ModelActionListener<T> l, l2;
 
         public CallbackAction(ModelActionListener<T> l) {
             this.l = l;
         }
-
+        
+        public CallbackAction(ModelActionListener<T> l, ModelActionListener<T> l2) {
+            this.l = l;
+            this.l2 = l2;
+        }
+        
         protected abstract T run();
 
         @Override
         public void modelActionPerformed(ModelActionEvent<T> e) {
             if (l != null) l.modelActionPerformed(e);
+            if (l2 != null && e.getType() == ModelActionEvent.TYPE_EVENT) l2.modelActionPerformed(e);
         }
 
     }
@@ -117,12 +123,20 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
 
     @Override
     public void getProperties(ModelActionListener<PropsObj> action) {
-        getProperties(null, action);
+        getProperties(null, action, null);
     }
 
+    public void getProperties(ModelActionListener<PropsObj> action, ModelActionListener<PropsObj> action2) {
+        getProperties(null, action, action2);
+    }
+    
     @Override
     public void getProperties(final RequestMap map, ModelActionListener<PropsObj> action) {
-        callback(new CallbackAction<PropsObj>(action) {
+        getProperties(map, action, null);
+    }
+    
+    public void getProperties(final RequestMap map, ModelActionListener<PropsObj> action, ModelActionListener<PropsObj> action2) {
+        callback(new CallbackAction<PropsObj>(action, action2) {
 
             @Override
             protected PropsObj run() {
@@ -134,12 +148,20 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
     
     @Override
     public void askModel(ModelActionListener<Integer> action) {
-        askModel(null, action);
+        askModel(null, action, null);
+    }
+    
+    public void askModel(ModelActionListener<Integer> action, ModelActionListener<Integer> action2) {
+        askModel(null, action, action2);
     }
     
     @Override
     public void askModel(final RequestMap map, ModelActionListener<Integer> action) {
-        callback(new CallbackAction<Integer>(action) {
+        askModel(map, action, null);
+    }
+    
+    public void askModel(final RequestMap map, ModelActionListener<Integer> action, ModelActionListener<Integer> action2) {
+        callback(new CallbackAction<Integer>(action, action2) {
 
             @Override
             protected Integer run() {
@@ -151,7 +173,11 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
     
     @Override
     public void setProperty(final RequestMap map, ModelActionListener<Integer> action) {
-        callback(new CallbackAction<Integer>(action) {
+        setProperty(map, action, null);
+    }
+    
+    public void setProperty(final RequestMap map, ModelActionListener<Integer> action, ModelActionListener<Integer> action2) {
+        callback(new CallbackAction<Integer>(action, action2) {
 
             @Override
             protected Integer run() {
