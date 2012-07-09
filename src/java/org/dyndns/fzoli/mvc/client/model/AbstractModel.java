@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.dyndns.fzoli.http.CountingListener;
 import org.dyndns.fzoli.mvc.client.connection.Connection;
 import org.dyndns.fzoli.mvc.client.connection.exception.ConnectionException;
 import org.dyndns.fzoli.mvc.client.connection.exception.ControllerCloseException;
@@ -85,13 +86,22 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
         return CONNECTION.setImage(this, os, map);
     }
 
+    public int setImage(ByteArrayOutputStream os, RequestMap map, CountingListener l) {
+        if (l != null) CONNECTION.getHttpExecutor().setListener(CONNECTION.getControllerUrl(), map, l);
+        return CONNECTION.setImage(this, os, map);
+    }
+    
     @Override
     public void setImage(final ByteArrayOutputStream os, final RequestMap map, ModelActionListener<Integer> action) {
+        setImage(os, map, action, null);
+    }
+    
+    public void setImage(final ByteArrayOutputStream os, final RequestMap map, ModelActionListener<Integer> action, final CountingListener l) {
         callback(new CallbackAction<Integer>(action) {
 
             @Override
             protected Integer run() {
-                return setImage(os, map);
+                return setImage(os, map, l);
             }
             
         });

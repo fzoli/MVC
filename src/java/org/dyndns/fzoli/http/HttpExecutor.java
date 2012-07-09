@@ -67,6 +67,7 @@ public abstract class HttpExecutor {
     protected final AbstractHttpClient HTTP_CLIENT;
     
     private final Map<ExecuteData, HttpPost> EXECUTE_MAP = new HashMap<ExecuteData, HttpPost>();
+    private final Map<ExecuteData, CountingListener> LISTENER_MAP = new HashMap<ExecuteData, CountingListener>();
     
     public HttpExecutor() {
         this(null);
@@ -282,12 +283,18 @@ public abstract class HttpExecutor {
         return execute(url, map, entity, timeout);
     }
     
+    public void setListener(HttpUrl url, Map<String, List<String>> map, CountingListener l) {
+        LISTENER_MAP.put(new ExecuteData(url, map), l);
+    }
+    
     public HttpStreamReturn execute(final HttpUrl url, final Map<String, List<String>> map, HttpEntity entity, Integer timeout) {
         if (url == null) throw new NullPointerException("URL can not be null");
         HttpPost post = new HttpPost(url.toString());
         ExecuteData ed = new ExecuteData(url, map);
         EXECUTE_MAP.put(ed, post);
-        if (entity != null) post.setEntity(entity);
+        CountingListener listener = LISTENER_MAP.get(ed);
+        HttpEntity usedEntity = listener == null ? entity : new CountingHttpEntity(entity, listener);
+        if (entity != null) post.setEntity(usedEntity);
         HttpStreamReturn ret;
         try {
             if (creds != null) post.addHeader(new BasicScheme().authenticate(creds, post));
@@ -319,6 +326,7 @@ public abstract class HttpExecutor {
             ret = new HttpStreamReturn(ex);
         }
         EXECUTE_MAP.remove(ed);
+        LISTENER_MAP.remove(ed);
         return ret;
     }
     

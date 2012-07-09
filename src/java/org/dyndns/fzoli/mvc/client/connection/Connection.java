@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map.Entry;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -60,6 +58,14 @@ public abstract class Connection<EventType, PropsType> implements ModelChangeEve
     }
     
     // <editor-fold defaultstate="collapsed" desc="Common methods.">
+    
+    public HttpUrl getControllerUrl() {
+        return CONTROLLER_URL;
+    }
+
+    public HttpUrl getListenerUrl() {
+        return LISTENER_URL;
+    }
     
     public void close() {
         closed = true;
