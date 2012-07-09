@@ -86,6 +86,18 @@ public abstract class AbstractModel<EventType, PropsType, EventObj, PropsObj> im
     }
 
     @Override
+    public void setImage(final ByteArrayOutputStream os, final RequestMap map, ModelActionListener<Integer> action) {
+        callback(new CallbackAction<Integer>(action) {
+
+            @Override
+            protected Integer run() {
+                return setImage(os, map);
+            }
+            
+        });
+    }
+    
+    @Override
     public void getImage(final RequestMap map, ModelActionListener<InputStream> action) {
         callback(new CallbackAction<InputStream>(action) {
 

@@ -2,7 +2,6 @@ package org.dyndns.fzoli.mvc.client.model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 import org.dyndns.fzoli.mvc.client.event.ModelActionListener;
 import org.dyndns.fzoli.mvc.client.event.ModelChangeListener;
@@ -28,6 +27,8 @@ public interface Model<EventType, PropsType, EventObj, PropsObj> extends BaseMod
     InputStream getImage(RequestMap map);
     
     int setImage(ByteArrayOutputStream os, RequestMap map);
+    
+    void setImage(final ByteArrayOutputStream os, final RequestMap map, ModelActionListener<Integer> action);
     
     int setProperty(RequestMap map);
     
