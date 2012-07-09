@@ -39,10 +39,11 @@ public class ListMap<K, V> extends HashMap<K, List<V>> {
         return (!l.isEmpty()) ? l.get(0) : null;
     }
     
-    public void setFirst(K key, V value) {
+    public ListMap<K, V> setFirst(K key, V value) {
         List<V> l = get(key);
         if (l.isEmpty()) l.add(value);
         else l.set(0, value);
+        return this;
     }
     
     @Override
