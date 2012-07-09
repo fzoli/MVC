@@ -29,7 +29,7 @@ import org.dyndns.fzoli.mvc.test.common.pojo.TestEvent;
  */
 public class TestFrame extends JFrame implements CachedModelChangeListener<TestEvent> {
     
-    private final static Connection<Object, Object> conn = new JSONConnection(new HttpUrl(false, "192.168.10.1", 8084), new DefaultHttpExecutor(),"MVC", "Controller", "ChangeListener");
+    private final static Connection<Object, Object> conn = new JSONConnection(new HttpUrl(false, "localhost", 8084), new DefaultHttpExecutor(),"MVC", "Controller", "ChangeListener");
     private final TestModel testModel;
     
     public TestFrame() {

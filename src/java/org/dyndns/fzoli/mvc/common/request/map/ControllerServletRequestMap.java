@@ -62,7 +62,6 @@ public class ControllerServletRequestMap extends ServletRequestMap {
         setModels(models);
     }
     
-    
     public ControllerServletRequestMap(String action, String listenerId, String model) {
         super(listenerId);
         setAction(action);
@@ -87,6 +86,13 @@ public class ControllerServletRequestMap extends ServletRequestMap {
 
     private void setModels(List<String> models) {
         setValues(MODEL, models);
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ? extends List<String>> m) {
+        if (m.containsKey(ACTION)) throw new IllegalArgumentException(ACTION + RESERVED_KEY);
+        if (m.containsKey(MODEL)) throw new IllegalArgumentException(MODEL + RESERVED_KEY);
+        super.putAll(m);
     }
     
 }

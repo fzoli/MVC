@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public class ServletRequestMap extends RequestMap {
 
+    protected static final String RESERVED_KEY = " reserved key";
+    
     private static final String LISTENER_ID = "listener_id";
     
     private RequestMap values = new RequestMap();
@@ -56,6 +58,12 @@ public class ServletRequestMap extends RequestMap {
     protected final void initValue(String key) {
         values.put(key, get(key));
         remove(key);
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ? extends List<String>> m) {
+        if (m.containsKey(LISTENER_ID)) throw new IllegalArgumentException(LISTENER_ID + RESERVED_KEY);
+        super.putAll(m);
     }
     
 }
