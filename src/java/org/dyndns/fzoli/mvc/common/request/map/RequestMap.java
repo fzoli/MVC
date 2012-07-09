@@ -20,5 +20,10 @@ public class RequestMap extends ListMap<String, String> {
     public RequestMap(Map<String, String[]> m) {
         super(m);
     }
+
+    @Override
+    public RequestMap setFirst(String key, String value) {
+        return (RequestMap) super.setFirst(key, value);
+    }
     
 }
