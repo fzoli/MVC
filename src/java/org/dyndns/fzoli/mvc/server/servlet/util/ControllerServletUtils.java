@@ -2,6 +2,7 @@ package org.dyndns.fzoli.mvc.server.servlet.util;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -87,7 +88,9 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
     }
     
     private void printReturnMessage(HttpServletResponse response, String value) {
-        printString(response, getServlet().returnMessageToString(new ReturnMessage(value)));
+        String msg = getServlet().returnMessageToString(new ReturnMessage(value));
+        response.setContentLength(msg.getBytes().length);
+        printString(response, msg);
     }
     
     private void askModel(ControllerServletRequestMap requestMap, HttpServletRequest request, HttpServletResponse response) {
@@ -108,7 +111,9 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
                 PropsType props = m.safeGetProperties(request, requestMap);
                 msgmap.put(mb.getModelName(m), props);
             }
-            printString(response, getServlet().modelMessageToString(new ModelMessage<PropsType>(msgmap)));
+            String msg = getServlet().modelMessageToString(new ModelMessage<PropsType>(msgmap));
+            response.setContentLength(msg.getBytes().length);
+            printString(response, msg);
         }
     }
     
@@ -157,7 +162,9 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
     }
     
     private void printCloseMessage(HttpServletResponse response, String reason) {
-        printString(response, getServlet().closeMessageToString(new ControllerCloseMessage(reason)));
+        String msg = getServlet().closeMessageToString(new ControllerCloseMessage(reason));
+        response.setContentLength(msg.getBytes().length);
+        printString(response, msg);
     }
 
     @Override
@@ -182,10 +189,13 @@ class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventTyp
     }
     
     private static void writeImage(HttpServletResponse response, RenderedImage bi) throws IOException {
-        response.setHeader("Cache-Control", "private,no-cache,no-store");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bi == null ? EMPTY_IMG : bi, "png", bos);
         response.setContentType("image/png");
+        response.setContentLength(bos.size());
+        response.setHeader("Cache-Control", "private,no-cache,no-store");
         OutputStream os = response.getOutputStream();
-        ImageIO.write(bi == null ? EMPTY_IMG : bi, "png", os);
+        os.write(bos.toByteArray());
         os.close();
     }
     

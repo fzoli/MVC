@@ -69,11 +69,15 @@ class ListenerServletUtils<EventType, PropsType> extends ServletUtils<EventType,
     }
     
     private void printCloseMessage(String listenerId, boolean newId, int timeoutParam, String reason, HttpServletResponse response) {
-        printString(response, getServlet().closeMessageToString(new ListenerCloseMessage(reason, listenerId, getInitTime(), timeoutParam, newId)));
+        String ret = getServlet().closeMessageToString(new ListenerCloseMessage(reason, listenerId, getInitTime(), timeoutParam, newId));
+        response.setContentLength(ret.getBytes().length);
+        printString(response, ret);
     }
     
     private void printEventMessage(HttpServletResponse response, EventMessage<EventType> msg) {
-        printString(response, getServlet().eventMessageToString(msg));
+        String ret = getServlet().eventMessageToString(msg);
+        response.setContentLength(ret.getBytes().length);
+        printString(response, ret);
     }
     
     private void kickServletsWithSameId(String listenerId, HttpServletRequest request) {
