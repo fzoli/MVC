@@ -8,9 +8,15 @@ import org.dyndns.fzoli.mvc.common.key.XMLKeys;
 import org.dyndns.fzoli.mvc.common.message.ModelMessage;
 import org.dyndns.fzoli.mvc.common.message.ReturnMessage;
 import org.dyndns.fzoli.mvc.server.servlet.AbstractXMLModelServlet;
+import org.dyndns.fzoli.mvc.server.servlet.util.ControllerServletUtils;
 import org.w3c.dom.Element;
 
 public class XMLControllerServlet extends AbstractXMLModelServlet implements ControllerServlet<Element, List<Element>> {
+
+    @Override
+    protected ControllerServletUtils<Element, List<Element>> getServletUtils() {
+        return (ControllerServletUtils<Element, List<Element>>) super.getServletUtils();
+    }
 
     @Override
     public String modelMessageToString(ModelMessage<List<Element>> msg) {

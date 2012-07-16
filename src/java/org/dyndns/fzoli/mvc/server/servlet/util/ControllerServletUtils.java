@@ -49,7 +49,7 @@ class ModelInfo<EventType, PropsType> {
  *
  * @author zoli
  */
-class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventType, PropsType> {
+public class ControllerServletUtils<EventType, PropsType> extends ServletUtils<EventType, PropsType> {
 
     private final static BufferedImage EMPTY_IMG = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     

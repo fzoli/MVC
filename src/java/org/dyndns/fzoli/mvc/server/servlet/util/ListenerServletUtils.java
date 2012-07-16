@@ -19,7 +19,7 @@ import org.dyndns.fzoli.mvc.server.servlet.listener.ListenerServlet;
  *
  * @author zoli
  */
-class ListenerServletUtils<EventType, PropsType> extends ServletUtils<EventType, PropsType> {
+public class ListenerServletUtils<EventType, PropsType> extends ServletUtils<EventType, PropsType> {
     
     private final Date START_DATE = new Date();
     private final ListenerIDRegister ID_REGISTER;
