@@ -98,15 +98,15 @@ class ListenerServletUtils<EventType, PropsType> extends ServletUtils<EventType,
         return c;
     }
     
-    private int getEventDelay() {
+    public int getEventDelay() {
         return getConfigNumber(ListenerServlet.PARAM_EVENT_DELAY, 1, 1000, 10);
     }
     
-    private int getEventTimeout() {
+    public int getEventTimeout() {
         return getConfigNumber(ListenerServlet.PARAM_EVENT_TIMEOUT, 10000, 1800000, 10000);
     }
 
-    private int getReconnectWait() {
+    public int getReconnectWait() {
         return getConfigNumber(ListenerServlet.PARAM_RECONNECT_WAIT, 0, 30000);
     }
 

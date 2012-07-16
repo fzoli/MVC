@@ -27,6 +27,10 @@ public abstract class AbstractModelServlet<EventType, PropsType> extends Abstrac
     
     private static String mapName = null;
     private final ServletUtils<EventType, PropsType> UTILS = ServletUtils.create(this);
+
+    protected ServletUtils<EventType, PropsType> getServletUtils() {
+        return UTILS;
+    }
     
     @Override
     protected void printResponse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
