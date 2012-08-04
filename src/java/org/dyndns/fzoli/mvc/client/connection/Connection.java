@@ -2,8 +2,8 @@ package org.dyndns.fzoli.mvc.client.connection;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.Map.Entry;
 import java.util.*;
+import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -24,6 +24,7 @@ import org.dyndns.fzoli.mvc.common.message.map.ListenerCloseMap;
 import org.dyndns.fzoli.mvc.common.request.map.ControllerServletRequestMap;
 import org.dyndns.fzoli.mvc.common.request.map.RequestMap;
 import org.dyndns.fzoli.mvc.common.request.map.ServletRequestMap;
+import org.dyndns.fzoli.util.ArrayList;
 
 /**
  *

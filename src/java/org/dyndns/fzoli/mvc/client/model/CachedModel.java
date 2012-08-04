@@ -1,9 +1,6 @@
 package org.dyndns.fzoli.mvc.client.model;
 
 import java.util.List;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dyndns.fzoli.mvc.client.connection.Connection;
 import org.dyndns.fzoli.mvc.client.connection.exception.ConnectionException;
 import org.dyndns.fzoli.mvc.client.event.*;
 

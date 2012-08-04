@@ -2,7 +2,6 @@ package org.dyndns.fzoli.mvc.client.model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import org.dyndns.fzoli.http.CountingListener;
 import org.dyndns.fzoli.mvc.client.connection.Connection;
@@ -10,6 +9,7 @@ import org.dyndns.fzoli.mvc.client.connection.exception.ConnectionException;
 import org.dyndns.fzoli.mvc.client.connection.exception.ControllerCloseException;
 import org.dyndns.fzoli.mvc.client.event.*;
 import org.dyndns.fzoli.mvc.common.request.map.RequestMap;
+import org.dyndns.fzoli.util.ArrayList;
 
 /**
  *
