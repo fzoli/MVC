@@ -4,7 +4,7 @@
 
     var /*Map*/ models = {};
 
-    var /*Map*/ defaults = {
+    var /*Map*/ options = {
         /* Controller variables */
         askModelAction: 'ask_model',
         getModelAction: 'get_model',
@@ -74,9 +74,9 @@
         return obj;
     }
 
-    $.Controller = function(options) {
+    $.Controller = function(opts) {
         
-        var /*Map*/ options =  $.extend(defaults, options);
+        options =  $.extend(options, opts);
         
         function getModels(modelMap, func, onlyFirst) {
             if (func == null) return;
@@ -209,182 +209,181 @@
         
     };
 
-    $.ModelChangeListener = function(options) {
-
-        var /*Map*/ options =  $.extend(defaults, options);
-
-        var /*Boolean*/ listening = false, running = false, reinit = false, regging = false;
-        var /*String*/ listenerId, initTime;
-        var errorCounter = 0;
-        
-        var /*Timer*/ timer = $.timer(function(){
-            if (listening) return;
-            listening = true;
-            $.ajax({
-                type: options.method,
-                url: options.listenerUrl,
-                data: createListenerPostData(),
-                async: true,
-                success: function(response) {
-                    errorCounter = 0;
-                    var closed, textNewId;
-                    if(options.dataType == 'xml') closed = $(response).find(options.nodeClosed);
-                    else closed = response.messages;
-                    if (closed != null) {
-                        if(options.dataType == 'xml') textNewId = closed.attr(options.attrNewId);
-                        else textNewId = closed[options.attrNewId];
-                    }
-                    if (textNewId != null) {
-                        var time;
-                        if (options.dataType == 'xml') time = closed.attr(options.attrInitTime);
-                        else time = closed[options.attrInitTime];
-                        if (initTime != null && initTime != time) options.serverRestart();
-                        var isNewId = (textNewId == 'true');
-                        if (isNewId) {
-                            if (options.dataType == 'xml') listenerId = closed.attr(options.attrListenerId);
-                            else listenerId = closed[options.attrListenerId];
-                            initTime = time;
-                            regAllModel();
-                        }
-                    }
-                    var reason;
-                    if (closed != null) {
-                        if (options.dataType == 'xml') reason = closed.attr(options.attrReason);
-                        else reason = closed[options.attrReason];
-                    }
-                    if (reason != null) {
-                        if (reason == options.valNoListeners && !reinit) {
-                            listenerId = null;
-                            stopListen(true, false);
-                            running = false;
-                        }
-                    }
-                    procEvent(response);
-                    if (!reinit) listening = false;
-                },
-                error: function(xhr, text) { //xhr.status is 0 if ESC pressed (interrupted ajax call) but if server is down xhr.status is 0 too :-(
-                    errorCounter++;
-                    if (errorCounter < options.maxErrors) {
-                        listening = false;
-                    }
-                    else {
-                        timer.stop();
-                        running = false;
-                        if (options.alertOn) alert('Too lot Change Listener error!');
-                        options.serverError(xhr, text);
-                        if (options.reloadOnListenError) reloadPage();
+    var /*Boolean*/ listening = false, running = false, reinit = false, regging = false;
+    var /*String*/ listenerId, initTime;
+    var /*Integer*/ errorCounter = 0;
+    var /*Timer*/ timer = $.timer(function() {
+        if (listening) return;
+        listening = true;
+        $.ajax({
+            type: options.method,
+            url: options.listenerUrl,
+            data: createListenerPostData(),
+            async: true,
+            success: function(response) {
+                errorCounter = 0;
+                var closed, textNewId;
+                if(options.dataType == 'xml') closed = $(response).find(options.nodeClosed);
+                else closed = response.messages;
+                if (closed != null) {
+                    if(options.dataType == 'xml') textNewId = closed.attr(options.attrNewId);
+                    else textNewId = closed[options.attrNewId];
+                }
+                if (textNewId != null) {
+                    var time;
+                    if (options.dataType == 'xml') time = closed.attr(options.attrInitTime);
+                    else time = closed[options.attrInitTime];
+                    if (initTime != null && initTime != time) options.serverRestart();
+                    var isNewId = (textNewId == 'true');
+                    if (isNewId) {
+                        if (options.dataType == 'xml') listenerId = closed.attr(options.attrListenerId);
+                        else listenerId = closed[options.attrListenerId];
+                        initTime = time;
+                        regAllModel();
                     }
                 }
-            });
-        }, options.time, false);
-
-        function regAllModel(force) {
-            regModels(models, force);
-        }
-        
-        function unregAllModel(async, force) {
-            unregModels(models, async, force);
-        }
-
-        function regModel(name, force) {
-            regModels(arrayToMap([name]), force);
-        }
-        
-        function unregModel(name, force) {
-            unregModels(arrayToMap([name]), true, force);
-        }
-
-        function regModels(modelMap, force) {
-            manageModels(true, modelMap, true, force);
-        }
-
-        function unregModels(modelMap, async, force) {
-            manageModels(false, modelMap, async, force);
-        }
-
-        function manageModels(reg, modelMap, async, force) {
-            if (force == null) force = false;
-            if (regging && !force) return;
-            regging = true;
-            if (getMapSize(modelMap) <= 0) {
-                return;
-            }
-            $.ajax({
-                type: options.method,
-                url: options.controllerUrl,
-                data: createControllerPostDataFromMap(reg, modelMap),
-                async: async,
-                success: function(response) {
-                    if (reinit) {
-                        reinit = false;
-                        listening = false;
-                    }
-                    controllerErrorCounter = 0;
-                    if (options.alertOn) {
-                        var ret = getReturn(response, options);
-                        if (ret != 'ALL_OK') alert('There is wrong model name. Check it!');
-                    }
-                    if (!reg && running && models == modelMap) { //if all model removed
+                var reason;
+                if (closed != null) {
+                    if (options.dataType == 'xml') reason = closed.attr(options.attrReason);
+                    else reason = closed[options.attrReason];
+                }
+                if (reason != null) {
+                    if (reason == options.valNoListeners && !reinit) {
+                        listenerId = null;
+                        stopListen(true, false);
                         running = false;
                     }
-                    regging = false;
-                },
-                error: function(xhr, text) {
-                    controllerErrorCounter++;
-                    if (controllerErrorCounter < options.maxControllerErrors) {
-                        manageModels(reg,modelMap, async);
-                    }
-                    else {
-                        if (options.alertOn) alert('Too lot controller reg listener error.');
-                        options.serverError(xhr, text);
-                    }
-                    regging = false;
                 }
+                procEvent(response);
+                if (!reinit) listening = false;
+            },
+            error: function(xhr, text) { //xhr.status is 0 if ESC pressed (interrupted ajax call) but if server is down xhr.status is 0 too :-(
+                errorCounter++;
+                if (errorCounter < options.maxErrors) {
+                    listening = false;
+                }
+                else {
+                    timer.stop();
+                    running = false;
+                    if (options.alertOn) alert('Too lot Change Listener error!');
+                    options.serverError(xhr, text);
+                    if (options.reloadOnListenError) reloadPage();
+                }
+            }
+        });
+    }, options.time, false);
+    
+    function createListenerPostData() {
+        return listenerId == null ? '' : options.idParam + '=' + listenerId;
+    }
+    
+    function regModel(name, force) {
+        regModels(arrayToMap([name]), force);
+    }
+    
+    function regModels(modelMap, force) {
+        manageModels(true, modelMap, true, force);
+    }
+    
+    function regAllModel(force) {
+        regModels(models, force);
+    }
+    
+    function unregModel(name, force) {
+        unregModels(arrayToMap([name]), true, force);
+    }
+    
+    function unregModels(modelMap, async, force) {
+        manageModels(false, modelMap, async, force);
+    }
+    
+    function unregAllModel(async, force) {
+        unregModels(models, async, force);
+    }
+    
+    function manageModels(reg, modelMap, async, force) {
+        if (force == null) force = false;
+        if (regging && !force) return;
+        regging = true;
+        if (getMapSize(modelMap) <= 0) {
+            return;
+        }
+        $.ajax({
+            type: options.method,
+            url: options.controllerUrl,
+            data: createControllerPostDataFromMap(reg, modelMap),
+            async: async,
+            success: function(response) {
+                if (reinit) {
+                    reinit = false;
+                    listening = false;
+                }
+                controllerErrorCounter = 0;
+                if (options.alertOn) {
+                    var ret = getReturn(response, options);
+                    if (ret != 'ALL_OK') alert('There is wrong model name. Check it!');
+                }
+                if (!reg && running && models == modelMap) { //if all model removed
+                    running = false;
+                }
+                regging = false;
+            },
+            error: function(xhr, text) {
+                controllerErrorCounter++;
+                if (controllerErrorCounter < options.maxControllerErrors) {
+                    manageModels(reg,modelMap, async);
+                }
+                else {
+                    if (options.alertOn) alert('Too lot controller reg listener error.');
+                    options.serverError(xhr, text);
+                }
+                regging = false;
+            }
+        });
+    }
+    
+    function createControllerPostDataFromMap(reg, modelMap) {
+        var id = createListenerPostData();
+        var amp = options.amp;
+        if (id.length > 0) id += amp;
+        var action = reg ? options.regAction : options.unregAction;
+        action = options.actionParam + '=' + action;
+        var mods = '';
+        for(var m in modelMap) {
+            mods += options.modelParam + '=' + m + amp;
+        }
+        mods = mods.substr(0, mods.length - amp.length);
+        if (mods.length > 0) mods = amp + mods;
+        return id + action + mods;
+    }
+    
+    function procEvent(response) {
+        if (options.dataType == 'xml') {
+            $(response).find(options.nodeModel).each(function(){
+                var name = $(this).attr(options.attrName);
+                if (models[name] != null) models[name]($(this)); //call event handler function
             });
         }
-
-        function createControllerPostDataFromMap(reg, modelMap) {
-            var id = createListenerPostData();
-            var amp = options.amp;
-            if (id.length > 0) id += amp;
-            var action = reg ? options.regAction : options.unregAction;
-            action = options.actionParam + '=' + action;
-            var mods = '';
-            for(var m in modelMap) {
-                mods += options.modelParam + '=' + m + amp;
-            }
-            mods = mods.substr(0, mods.length - amp.length);
-            if (mods.length > 0) mods = amp + mods;
-            return id + action + mods;
-        }
-
-        function createListenerPostData() {
-            return listenerId == null ? '' : options.idParam + '=' + listenerId;
-        }
-
-        function procEvent(response) {
-            if (options.dataType == 'xml') {
-                $(response).find(options.nodeModel).each(function(){
-                    var name = $(this).attr(options.attrName);
-                    if (models[name] != null) models[name]($(this)); //call event handler function
-                });
-            }
-            else {
-                if (response.type != null && response.type == 'events')
-                for (var name in response.events) {
-                    if (models[name] != null) models[name](response.events);
-                }
+        else {
+            if (response.type != null && response.type == 'events')
+            for (var name in response.events) {
+                if (models[name] != null) models[name](response.events);
             }
         }
-
+    }
+    
+    $.ModelChangeListener = function(opts) {
+        
+        options = $.extend(options, opts);
+        
         function needStart() {
             return !running && options.autoStart;
         }
-
+        
         function needUpdate() {
             return running && listenerId != null;
         }
-
+        
         this.getListenerId = function() {
             return listenerId;
         };
@@ -483,5 +482,29 @@
         return this;
 
     };
+    
+    $.Model = function(name, callback, updater, repaint) {
+        var cache;
+        var controller = $.Controller();
+        var listener = $.ModelChangeListener();
+        if (repaint == null) repaint = true;
+        if (name != null && controller != null && listener != null && callback != null && updater != null) {
+            
+            controller.getModel(name, function(data) {
+                cache = data;
+                callback(cache);
+            });
+            
+            listener.addModel(name, function(datas) {
+                for(var i in datas[name]) {
+                    var ret = updater(cache, datas[name][i]);
+                    if (ret != null) cache = ret;
+                }
+                if (repaint) callback(cache);
+            });
+            
+        }
+        return this;
+    }
 
 })(jQuery);

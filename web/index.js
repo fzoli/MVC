@@ -37,7 +37,7 @@
         var mylb = $('span#mylb');
         var tf = $('span#tf');
         var mytf = $('span#mytf');
-        
+
         tf.autoInput({
             title : 'Megosztott üzenet',
             message : 'Nem megengedett: Ádám, Éva',
@@ -72,6 +72,16 @@
             setText(mylb, mytf, mv);
         });
         
+//        $.Model(
+//            'test_model',
+//            function(data) {
+//                console.log(data)
+//            },
+//            function(data, evt) {
+//                data['str'] = evt['str']
+//            }
+//        );
+
     });
     
 })();
