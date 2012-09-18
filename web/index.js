@@ -78,13 +78,14 @@
 //                data['str'] = evt['str']
 //                console.log(data['str'])
 //            },
-//            salala: function() {alert('yupp')}
+//            setTest: function() {
+//                tm.setData({property : 'str', value : "test string"}, function (key) {
+//                    console.log(key)
+//                })
+//            }
 //        });
 //        console.log(tm.getData())
-//        tm.setData({property : 'str', value : "test string"}, function (key) {
-//            console.log(key)
-//        })
-//        tm.salala()
+//        tm.setTest()
         
     });
     
