@@ -77,8 +77,11 @@
 //            function(data, evt) {
 //                data['str'] = evt['str']
 //            }
-//        );
+//        )
 //        console.log(tm.getData())
+//        tm.setData({property : 'str', value : "test string"}, function (key) {
+//            console.log(key)
+//        })
 
     });
     

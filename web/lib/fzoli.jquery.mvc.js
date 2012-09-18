@@ -532,6 +532,14 @@
             init();
         }
         
+        this.askData = function(args, func) {
+            controller.askModel(name, args, func);
+        }
+        
+        this.setData = function(args, func) {
+            controller.setModel(name, args, func);
+        }
+        
     }
 
 })(jQuery);
