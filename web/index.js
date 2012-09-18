@@ -72,7 +72,7 @@
             setText(mylb, mytf, mv);
         });
 
-//        var tm = new $.Model({
+//        var tm = $.Model({
 //            name: 'test_model',
 //            updater: function() {
 //                data['str'] = evt['str']
