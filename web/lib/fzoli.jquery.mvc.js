@@ -78,7 +78,8 @@
         
         options =  $.extend(options, opts);
         
-        function getModels(modelMap, func, onlyFirst) {
+        function getModels(modelMap, func, onlyFirst, async) {
+            if (async == null) async = true;
             if (func == null) return;
             if (modelMap == null) modelMap = {};
             if (getMapSize(modelMap) > 0) {
@@ -87,7 +88,7 @@
                     dataType: options.dataType,
                     url: options.controllerUrl,
                     data: createGetModelsRequest(modelMap),
-                    async: true,
+                    async: async,
                     success: function(response) {
                         controllerErrorCounter = 0;
                         handleResponse(response, func, onlyFirst);
@@ -95,7 +96,7 @@
                     error: function(xhr, text) {
                         controllerErrorCounter++;
                         if (controllerErrorCounter < options.maxControllerErrors) {
-                            getModels(modelMap, func, onlyFirst);
+                            getModels(modelMap, func, onlyFirst, async);
                         }
                         else {
                             if (options.alertOn) alert('Too lot getModels error.');
@@ -185,8 +186,8 @@
             return mods;
         }
         
-        this.getModel = function(name, func) {
-            getModels(arrayToMap([name]), func, true);
+        this.getModel = function(name, func, async) {
+            getModels(arrayToMap([name]), func, true, async);
         };
         
         this.getModels = function(nameArray, func) {
@@ -491,14 +492,14 @@
             controller = $.Controller(),
             listener = $.ModelChangeListener();
         
-        function init() {
+        function init(async) {
             
             if (data != null) return;
             if (name == null || updater == null) return;
             
             controller.getModel(name, function(d) {
                 data = d;
-            });
+            }, async);
             
             listener.addModel(name, function(datas) {
                 var i;
@@ -517,8 +518,7 @@
         }
         
         this.getData = function() {
-            init();
-            //TODO: aszinkron tiltása
+            init(false);
             return data;
         };
         
