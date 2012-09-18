@@ -76,6 +76,7 @@
 //            'test_model',
 //            function(data, evt) {
 //                data['str'] = evt['str']
+//                console.log(data['str'])
 //            }
 //        )
 //        console.log(tm.getData())
