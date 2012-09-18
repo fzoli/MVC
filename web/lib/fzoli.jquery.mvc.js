@@ -483,28 +483,55 @@
 
     };
     
-    $.Model = function(name, callback, updater, repaint) {
-        var cache;
-        var controller = $.Controller();
-        var listener = $.ModelChangeListener();
-        if (repaint == null) repaint = true;
-        if (name != null && controller != null && listener != null && callback != null && updater != null) {
+    $.Model = function(name, updater) {
+
+        var data = null,
+            updateListeners = [],
+            changeListeners = [],
+            controller = $.Controller(),
+            listener = $.ModelChangeListener();
+        
+        function init() {
             
-            controller.getModel(name, function(data) {
-                cache = data;
-                callback(cache);
+            if (data != null) return;
+            if (name == null || updater == null) return;
+            
+            controller.getModel(name, function(d) {
+                data = d;
             });
             
             listener.addModel(name, function(datas) {
-                for(var i in datas[name]) {
-                    var ret = updater(cache, datas[name][i]);
-                    if (ret != null) cache = ret;
+                var i;
+                for (i in datas[name]) {
+                    var ret = updater(data, datas[name][i]);
+                    if (ret != null) data = ret;
+                    for (i in changeListeners) {
+                        changeListeners[i](data, datas[name][i]);
+                    }
                 }
-                if (repaint) callback(cache);
+                for (i in updateListeners) {
+                    updateListeners[i](data);
+                }
             });
             
         }
-        return this;
+        
+        this.getData = function() {
+            init();
+            //TODO: aszinkron tiltása
+            return data;
+        };
+        
+        this.addChangeListener = function(callback) {
+            changeListeners.push(callback);
+            init();
+        }
+        
+        this.addUpdateListener = function(callback) {
+            updateListeners.push(callback);
+            init();
+        }
+        
     }
 
 })(jQuery);

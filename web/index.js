@@ -72,15 +72,13 @@
             setText(mylb, mytf, mv);
         });
         
-//        $.Model(
+//        var tm = new $.Model(
 //            'test_model',
-//            function(data) {
-//                console.log(data)
-//            },
 //            function(data, evt) {
 //                data['str'] = evt['str']
 //            }
 //        );
+//        console.log(tm.getData())
 
     });
     
