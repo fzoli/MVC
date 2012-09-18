@@ -484,8 +484,15 @@
 
     };
     
-    $.Model = function(name, updater) {
-
+    $.Model = function(attrs) {
+        
+        var name = attrs['name'], updater = attrs['updater'];
+        
+        for (var i in attrs) {
+            if (i != 'name' && i != 'updater')
+                this[i] = attrs[i];
+        }
+        
         var data = null,
             updateListeners = [],
             changeListeners = [],

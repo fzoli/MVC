@@ -71,19 +71,21 @@
             setText(lb, tf, v);
             setText(mylb, mytf, mv);
         });
-        
-//        var tm = new $.Model(
-//            'test_model',
-//            function(data, evt) {
+
+//        var tm = new $.Model({
+//            name: 'test_model',
+//            updater: function() {
 //                data['str'] = evt['str']
 //                console.log(data['str'])
-//            }
-//        )
+//            },
+//            salala: function() {alert('yupp')}
+//        });
 //        console.log(tm.getData())
 //        tm.setData({property : 'str', value : "test string"}, function (key) {
 //            console.log(key)
 //        })
-
+//        tm.salala()
+        
     });
     
 })();
